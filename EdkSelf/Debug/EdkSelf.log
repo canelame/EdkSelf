@@ -1,0 +1,33 @@
+﻿Build started 16/04/2015 20:02:38.
+     1>Project "C:\Users\Alejandro\Desktop\EdkSelf\EdkSelf\EdkSelf.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\rev68\include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cc
+         main.cc
+     1>c:\users\alejandro\desktop\edkself\edkself\main.cc(102): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\alejandro\desktop\edkself\edkself\main.cc(108): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\alejandro\desktop\edkself\edkself\main.cc(122): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\alejandro\desktop\edkself\rev68\include\edk3\ref_ptr.h(27): error C2259: 'BufferO' : cannot instantiate abstract class
+                 due to following members:
+                 'void EDK3::dev::Buffer::bind(const EDK3::dev::Buffer::Target) const' : is abstract
+                 c:\users\alejandro\desktop\edkself\rev68\include\edk3\dev\buffer.h(17) : see declaration of 'EDK3::dev::Buffer::bind'
+                 'unsigned int EDK3::dev::Buffer::size(void) const' : is abstract
+                 c:\users\alejandro\desktop\edkself\rev68\include\edk3\dev\buffer.h(18) : see declaration of 'EDK3::dev::Buffer::size'
+                 'void EDK3::dev::Buffer::uploadData(const void *,unsigned int,unsigned int)' : is abstract
+                 c:\users\alejandro\desktop\edkself\rev68\include\edk3\dev\buffer.h(19) : see declaration of 'EDK3::dev::Buffer::uploadData'
+                 'void EDK3::dev::Buffer::release(void)' : is abstract
+                 c:\users\alejandro\desktop\edkself\rev68\include\edk3\dev\buffer.h(23) : see declaration of 'EDK3::dev::Buffer::release'
+                 c:\users\alejandro\desktop\edkself\edkself\main.cc(34) : see reference to function template instantiation 'SubT *EDK3::ref_ptr<EDK3::dev::Buffer>::allocT<BufferO>(void)' being compiled
+                 with
+                 [
+                     SubT=BufferO
+                 ]
+                 c:\users\alejandro\desktop\edkself\edkself\main.cc(34) : see reference to function template instantiation 'SubT *EDK3::ref_ptr<EDK3::dev::Buffer>::allocT<BufferO>(void)' being compiled
+                 with
+                 [
+                     SubT=BufferO
+                 ]
+     1>Done Building Project "C:\Users\Alejandro\Desktop\EdkSelf\EdkSelf\EdkSelf.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:03.00

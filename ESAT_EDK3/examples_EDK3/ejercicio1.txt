@@ -1,0 +1,101 @@
+#include <ESAT/window.h>
+#include <ESAT/input.h>
+#include <ESAT/draw.h>
+#include <ESAT/time.h>
+#include <time.h>
+
+#include <EDK3/geometry.h>
+#include <EDK3/camera.h>
+#include <EDK3/drawable.h>
+#include <EDK3/matdiffusetexture.h>
+#include <EDK3/texture.h>
+#include <EDK3/dev/gpumanager.h>
+
+#include <iostream>
+#include <cmath>
+
+
+struct {
+  EDK3::ref_ptr<EDK3::Camera> camera;
+  EDK3::ref_ptr<EDK3::Node> root;
+}GameState;
+
+void prepare(){
+  //Necesitamos un cubo
+  EDK3::ref_ptr<EDK3::Geometry> geo;
+  EDK3::CreateCube(&geo, 40, true, true);
+  //Para que se vea el cubo necesitamos que tenga una textura
+  //para ello creamos un tipo textura junto con sus settings
+  EDK3::ref_ptr<EDK3::MatDiffuseTexture> mat;
+  EDK3::ref_ptr<EDK3::MatDiffuseTexture::Settings> sett;
+
+  //Cargamos la texuta
+  EDK3::ref_ptr<EDK3::Texture> texture;
+  EDK3::Texture::Load("texture.png", &texture);
+
+  //Comprobamos que se carga la imagen sino mostramos error
+
+  if (!texture){
+    std::cerr << "Can't load the image" << std::endl;
+    exit(-2);
+  }
+  //Una vez cargados lo metemos en memoria.
+  mat.alloc();
+  sett.alloc();
+
+ 
+
+  EDK3::Node *root = GameState.root.alloc();
+  //Ahora creamos una varibale tipo drawable que nos permitira dibujar cosas en pantalla
+  //segun los settings anteriores
+  EDK3::ref_ptr<EDK3::Drawable> drawable;
+  for (int i = 0; i < 2; i++){
+    sett.alloc();
+    //float color1[] = { rand()/RAND_MAX, rand()/RAND_MAX,rand()/RAND_MAX,1.0f};
+
+    float color1[] = { 1.0, 1.0, 1.0, 1.0 };
+    sett->set_color(color1);
+    sett->set_texture(texture.get());
+    drawable.alloc();
+    drawable->set_geometry(geo.get());
+    drawable->set_material(mat.get());
+    drawable->set_material_settings(sett.get());
+    drawable->set_position(0, 0, 0);
+    drawable->set_HPR(360.0f*rand() / RAND_MAX, 360.0f*rand() / RAND_MAX, 360.0f*rand() / RAND_MAX);
+    root->addChild(drawable.get());
+  }
+  //Creamos la camara
+
+  GameState.camera.alloc();
+
+  float pos[] = {120,140,0};
+  float view[] = { -120, -140, -120 };
+
+  GameState.camera->set_position(pos);
+  GameState.camera->set_view_direction(view);
+  GameState.camera->setupPerspective(70, 8.0 / 6.0, 1.0, 1500.0);
+
+
+}
+
+void render(){
+
+  GameState.root->set_rotation_y(50 * ESAT::Time() / 1000);
+  GameState.root->set_position(5 * ESAT::Time() / 1000,0.0f,0.0f);
+  GameState.camera->doCull(GameState.root.get());
+
+  GameState.camera->doRender();
+
+}
+
+int ESAT::main(int argc, char **argv){
+  srand(Time());
+  ESAT::WindowInit(640, 480);
+  prepare();
+  while (ESAT::WindowIsOpened())
+  {
+    render();
+    ESAT::WindowFrame();
+  }
+  return 0;
+}
